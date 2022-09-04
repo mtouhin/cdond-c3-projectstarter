@@ -73,38 +73,38 @@ jobs:
           paths: [backend/node_modules]
           key: backend-build
 
-  test-frontend:
-    docker:
+  #test-frontend:
+  #  docker:
       # Docker image here
-    steps:
-      - checkout
+  #  steps:
+  #    - checkout
       # Checkout code from git
       # Restore from cache
       # Your job code here
                 
-  test-backend:
-    docker:
+  #test-backend:
+  #  docker:
       # Docker image here
-    steps:
-       - checkout
+  #  steps:
+  #     - checkout
       # Checkout code from git
       # Restore from cache
       # Your job code here
             
-  scan-frontend:
-    docker:
+  #scan-frontend:
+  #  docker:
       # Docker image here
-    steps:
-      - checkout
+  #  steps:
+  #    - checkout
       # Checkout code from git
       # Restore from cache
       # Your job code here
 
-  scan-backend:
-    docker:
+  #scan-backend:
+  #  docker:
       # Docker image here
-    steps:
-      - checkout
+  #  steps:
+  #    - checkout
       # Checkout code from git
       # Restore from cache
       # Your job code here
@@ -244,27 +244,27 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
-  smoke-test:
-    docker:
+  #smoke-test:
+  #  docker:
       # Lightweight Docker image 
-    steps:
+  #  steps:
       # Checkout code from git
-      - checkout
-      - run:
-          name: Install dependencies
-          command: |
+  #    - checkout
+  #    - run:
+  #        name: Install dependencies
+  #        command: |
+  #          # your code here
+  #    - run:
+  #        name: Get backend url
+  #        command: |
             # your code here
-      - run:
-          name: Get backend url
-          command: |
+  #    - run:
+  #        name: Backend smoke test.
+  #        command: |
             # your code here
-      - run:
-          name: Backend smoke test.
-          command: |
-            # your code here
-      - run:
-          name: Frontend smoke test.
-          command: |
+  #    - run:
+  #        name: Frontend smoke test.
+  #        command: |
             # your code here
       # Here's where you will add some code to rollback on failure  
 
