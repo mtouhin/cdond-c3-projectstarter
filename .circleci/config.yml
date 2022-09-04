@@ -47,6 +47,7 @@ jobs:
           command: |
             # Your code here
             cd ~/project/frontend
+            npm i
             npm run build
             exit 1
       - save_cache:
@@ -65,6 +66,7 @@ jobs:
           command: |
              # Your code here
              cd ~/project/backend
+             npm i
              npm run build
              exit 1
       - save_cache:
