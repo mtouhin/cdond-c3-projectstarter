@@ -140,20 +140,26 @@ jobs:
   configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
+      - image: python:3.7-alpine3.11
     steps:
       # Checkout code from git
       - checkout
       # Add ssh keys with fingerprint
+      - add_ssh_keys:
+          #NEEDS TO BE UPDATED
+          fingerprints: ["0c:55:f7:d7:ad:e3:73:19:0b:e6:c6:46:5c:04:76:94"]
       # attach workspace
       - run:
           name: Install dependencies
           command: |
             # Your code here
+            apk add --update ansible 
             exit 1
       - run:
           name: Configure server
           command: |
             # Your code here
+            ansible-playbook -i inventory.txt configure-server.yml
             exit 1
       # Here's where you will add some code to rollback on failure      
 
@@ -201,19 +207,25 @@ jobs:
   deploy-backend:
     docker:
       # Docker image here that supports Ansible
+      - image: python:3.7-alpine3.11
     steps:
       # Checkout code from git
       - checkout
       # Add ssh keys with fingerprint
+      - add_ssh_keys:
+        #update fingerprint 
+          fingerprints: ["0c:55:f7:d7:ad:e3:73:19:0b:e6:c6:46:5c:04:76:94"]
       # attach workspace
       - run:
           name: Install dependencies
           command: |
             # your code here
+            apk add --update ansible 
       - run:
           name: Deploy backend
           command: |
             # your code here
+            ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
   smoke-test:
@@ -260,6 +272,7 @@ jobs:
 cleanup:
     docker:
       # Docker image here
+      - image: amazon/aws-cli
     steps:
       # Checkout code from git
       - checkout
