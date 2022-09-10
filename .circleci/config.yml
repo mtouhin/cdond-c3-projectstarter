@@ -49,6 +49,7 @@ jobs:
             cd ~/project/frontend
             npm i
             npm run build
+            npm install
             #exit 1
       - save_cache:
           paths: [frontend/node_modules]
@@ -68,6 +69,7 @@ jobs:
              cd ~/project/backend
              npm i
              npm run build
+             npm install
              #exit 1
       - save_cache:
           paths: [backend/node_modules]
@@ -90,9 +92,6 @@ jobs:
             # Your code here
             cd ~/project/frontend/
             npm install
-      - save_cache:
-          paths: [frontend/node_modules]
-          key: frontend-build
                 
   test-backend:
     docker:
@@ -110,23 +109,20 @@ jobs:
           command: |
            cd ~/project/backend/test/
            npm run test
-      - save_cache:
-          paths: [backend/node_modules]
-          key: backend-build
-          
+
   scan-frontend:
     docker:
       # Docker image here
       - image: circleci/node:13.8.0
     steps:
-      - checkout
       # Checkout code from git
+      - checkout
       # Restore from cache
       - restore_cache:
           keys: [frontend-build]
       # Your job code here
       - run:
-          name: Back-end build
+          name: front-end scan
           command: |
            cd ~/project/frontend
            npm audit --audit-level=critical
@@ -136,14 +132,14 @@ jobs:
       # Docker image here
       - image: circleci/node:13.8.0
     steps:
-      - checkout
       # Checkout code from git
+      - checkout
       # Restore from cache
       - restore_cache:
          keys: [backend-build]
       # Your job code here
       - run:
-          name: Back-end build
+          name: Back-end scan
           command: |
            cd ~/project/frontend
            npm audit --audit-level=critical
