@@ -132,7 +132,7 @@ jobs:
           command: |
            cd ~/project/frontend
            npm i
-           #npm audit fix --audit-level=critical --force
+           npm audit fix --audit-level=critical --force
            npm audit --audit-level=critical
 
       - save_cache:
@@ -155,7 +155,7 @@ jobs:
           command: |
            cd ~/project/frontend
            npm i
-           #npm audit fix --audit-level=critical --force
+           npm audit fix --audit-level=critical --force
            npm audit --audit-level=critical
       - save_cache:
           paths: [backend/node_modules]
@@ -216,7 +216,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-
+      
       # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints: ["39:e2:fa:58:79:26:eb:b7:0d:5c:98:ca:a1:5e:e8:a4"]
