@@ -174,9 +174,10 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \
               --tags project=back-end \
-              --stack-name backEnd-${CIRCLE_WORKFLOW_ID:0:5} 
-
+              --stack-name backEnd-${CIRCLE_WORKFLOW_ID:0:5} \
+              --region us-east-1 \
               --parameter-overrides ID=backEnd-${CIRCLE_WORKFLOW_ID:0:5}
+
               # --stack-name "your back-end stack name with workflow id" \
               # --parameter-overrides ID="your workflow id"  
               #exit 1
@@ -184,10 +185,11 @@ jobs:
           name: Ensure front-end infrastructure exist
           command: |
             aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --tags project=back-end \
-             --stack-name  backEnd-${CIRCLE_WORKFLOW_ID:0:5}  \
-             --parameter-overrides ID=backEnd-${CIRCLE_WORKFLOW_ID:0:5}   
+            --template-file .circleci/files/frontend.yml \
+            --tags project=back-end \
+            --stack-name  backEnd-${CIRCLE_WORKFLOW_ID:0:5}  \
+            --parameter-overrides ID=backEnd-${CIRCLE_WORKFLOW_ID:0:5}  \
+            --region us-east-1 
 
               #exit 1
       - run:
@@ -214,6 +216,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      
       # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints: ["39:e2:fa:58:79:26:eb:b7:0d:5c:98:ca:a1:5e:e8:a4"]
@@ -221,7 +224,7 @@ jobs:
       # attach workspace
       - attach_workspace:
           at: ~/
-          
+
       - run:
           name: Install dependencies
           command: |
@@ -287,11 +290,14 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-        #update fingerprint 
           fingerprints: ["39:e2:fa:58:79:26:eb:b7:0d:5c:98:ca:a1:5e:e8:a4"]
       # attach workspace
+      - attach_workspace:
+          at: ~/
+
       - run:
           name: Install dependencies
           command: |
@@ -304,27 +310,28 @@ jobs:
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
-  #smoke-test:
-  #  docker:
+  smoke-test:
+    docker:
       # Lightweight Docker image 
-  #  steps:
+      - image: python:3.7-alpine3.11
+    steps:
       # Checkout code from git
-  #    - checkout
-  #    - run:
-  #        name: Install dependencies
-  #        command: |
-  #          # your code here
-  #    - run:
-  #        name: Get backend url
-  #        command: |
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
             # your code here
-  #    - run:
-  #        name: Backend smoke test.
-  #        command: |
+      - run:
+          name: Get backend url
+          command: |
             # your code here
-  #    - run:
-  #        name: Frontend smoke test.
-  #        command: |
+      - run:
+          name: Backend smoke test.
+          command: |
+            # your code here
+      - run:
+          name: Frontend smoke test.
+          command: |
             # your code here
       # Here's where you will add some code to rollback on failure  
 
