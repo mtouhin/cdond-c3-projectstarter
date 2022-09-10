@@ -90,6 +90,9 @@ jobs:
             # Your code here
             cd ~/project/frontend/
             npm install
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: frontend-build
                 
   test-backend:
     docker:
@@ -107,6 +110,10 @@ jobs:
           command: |
            cd ~/project/backend/test/
            npm run test
+      - save_cache:
+          paths: [backend/node_modules]
+          key: backend-build
+          
   scan-frontend:
     docker:
       # Docker image here
