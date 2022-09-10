@@ -49,8 +49,6 @@ jobs:
             cd ~/project/frontend
             npm i
             npm run build
-            npm install
-            #exit 1
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -69,8 +67,6 @@ jobs:
              cd ~/project/backend
              npm i
              npm run build
-             npm install
-             #exit 1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
@@ -82,6 +78,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+
       # Restore from cache
       - restore_cache:
           keys: [frontend-build]
@@ -91,7 +88,11 @@ jobs:
           command: |
             # Your code here
             cd ~/project/frontend/
-            npm install
+            npm i
+            npm run test
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: frontend-test
                 
   test-backend:
     docker:
@@ -100,6 +101,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+
       # Restore from cache
       - restore_cache:
           keys: [backend-build]
@@ -108,7 +110,11 @@ jobs:
           name: Back-end test
           command: |
            cd ~/project/backend/test/
+           npm i
            npm run test
+      - save_cache:
+          paths: [backend/node_modules]
+          key: backend-test
 
   scan-frontend:
     docker:
@@ -125,12 +131,13 @@ jobs:
           name: front-end scan
           command: |
            cd ~/project/frontend
-           npm install
+           npm i
+           npm audit fix --audit-level=critical --force
            npm audit --audit-level=critical
-           npm audit fix
+
       - save_cache:
           paths: [frontend/node_modules]
-          key: frontend-build
+          key: frontend-scan
 
   scan-backend:
     docker:
@@ -147,12 +154,12 @@ jobs:
           name: Back-end scan
           command: |
            cd ~/project/frontend
-           npm install
+           npm i
+           npm audit fix --audit-level=critical --force
            npm audit --audit-level=critical
-           npm audit fix
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-build
+          key: backend-scan
 
   deploy-infrastructure:
     docker:
