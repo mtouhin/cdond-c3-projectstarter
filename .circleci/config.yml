@@ -53,9 +53,16 @@ jobs:
             cd ~/project/frontend
             npm i
             npm run build
+
+            exit 1
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
+
+      - slack/notify:
+          channel: integration
+          event: fail
+          template: basic_fail_1
 
   build-backend:
     docker:
@@ -74,6 +81,11 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      
+      - slack/notify:
+          channel: integration
+          event: fail
+          template: basic_fail_1
 
   test-frontend:
     docker:
@@ -211,7 +223,12 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      # Here's where you will add some code to rollback on failure      
+      # Here's where you will add some code to rollback on failure    
+
+      - slack/notify:
+          channel: integration
+          event: fail
+          template: basic_fail_1  
 
   configure-infrastructure:
     docker:
@@ -285,7 +302,12 @@ jobs:
           name: Deploy frontend objects
           command: |
             # your code here
-      # Here's where you will add some code to rollback on failure      
+      # Here's where you will add some code to rollback on failure     
+
+      - slack/notify:
+          channel: integration
+          event: fail
+          template: basic_fail_1 
                     
   deploy-backend:
     docker:
@@ -313,6 +335,11 @@ jobs:
             # your code here
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
+
+      - slack/notify:
+          channel: integration
+          event: fail
+          template: basic_fail_1
 
   smoke-test:
     docker:
