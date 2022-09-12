@@ -2,7 +2,6 @@ version: 2.1
 
 # slack updates
 orbs: 
-  node: 'circleci/node:4.1'
   slack: circleci/slack@4.5.1
 
 commands:
