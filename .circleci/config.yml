@@ -227,7 +227,7 @@ jobs:
             \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
-            --output text >> inventory
+            --output text >> .circleci/ansible/inventory.txt
             #exit 1
 
       - persist_to_workspace:
@@ -268,7 +268,7 @@ jobs:
           name: Configure server
           command: |
             # Your code here
-            ansible-playbook -i inventory.txt configure-server.yml
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
 
             #exit 1
       # Here's where you will add some code to rollback on failure      
