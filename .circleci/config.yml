@@ -229,8 +229,8 @@ jobs:
               --filters "Name=tag:project,Values=udapeople" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output=text)
-            curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
-            echo "$URLS" >> .circleci/ansible/inventory.txt
+            curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\} \
+            echo "$URLS" >> .circleci/ansible/inventory.txt \
             cat .circleci/ansible/inventory.txt
             #exit 1
 
@@ -270,7 +270,7 @@ jobs:
             apk update \
             apk add -u postgis \
             rm -rf /var/lib/apt/lists/* \
-            apk add --no-cache curl jq python3 py3-pip
+            apk add --no-cache curl jq python3 py3-pip \
             pip install awscli
             #exit 1
       
@@ -278,7 +278,7 @@ jobs:
           name: Inventory file setup
           command: |
             URLS=$(curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7}) \
-            echo $URLS >> .circleci/ansible/inventory.txt
+            echo $URLS >> .circleci/ansible/inventory.txt \
             cat .circleci/ansible/inventory.txt
 
       - run:
