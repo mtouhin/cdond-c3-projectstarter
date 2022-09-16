@@ -258,11 +258,13 @@ jobs:
       - attach_workspace:
           at: ~/
 
+
       - run:
           name: Install dependencies
           command: |
             # Your code here
             apk add --update ansible 
+            cat .circleci/ansible/inventory.txt
             #exit 1
       - run:
           name: Configure server
