@@ -26,6 +26,10 @@ In this project, you will prove your mastery of the following learning objective
 
 For your submission, please submit the following:
 
+curl 
+db.io
+HbfEaJNUXNPZ2MNx4KVzaV
+
 - A text file named `urls.txt` including:
   1. Public Url to GitHub repository (not private) 
   [https://github.com/mtouhin/cdond-c3-projectstarter]
