@@ -224,7 +224,6 @@ jobs:
           command: |
             # Your code here
             aws ec2 describe-instances \
-            \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
             --output text >> .circleci/ansible/inventory.txt
@@ -268,7 +267,9 @@ jobs:
           name: Configure server
           command: |
             # Your code here
-            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
+            ansible-playbook -i .circleci/ansible/inventory.txt \
+            .circleci/ansible/configure-server.yml \
+            --private-key=.circleci/ansible/private-key.pem
 
             #exit 1
       # Here's where you will add some code to rollback on failure      
@@ -433,8 +434,8 @@ workflows:
           filters:
             branches:
               only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
       #- run-migrations:
       #    requires: [configure-infrastructure]
       #- deploy-frontend:

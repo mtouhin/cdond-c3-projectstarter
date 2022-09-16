@@ -14,10 +14,6 @@
   apt:
     autoremove: yes
 
-- easy_install:
-    name: pip
-    state: latest
-
 - name: "install node."
   become: yes
   apt:
