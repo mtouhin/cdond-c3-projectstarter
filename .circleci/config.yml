@@ -263,8 +263,8 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            apk add --update ansible 
-            
+            apk add --update ansible \
+            sudo apt-get install curl
             #exit 1
       
       - run:
