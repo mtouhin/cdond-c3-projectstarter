@@ -231,7 +231,7 @@ jobs:
               --output=text) \
             curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
             #exit 1
-
+    
       - persist_to_workspace:
           root: ~/
           paths:
@@ -275,9 +275,9 @@ jobs:
       - run:
           name: Inventory file setup
           command: |
-            echo "[web]" >> .circleci/ansible/inventory.txt \
             URLS=$(curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7}) \
-            echo $URLS >> .circleci/ansible/inventory.txt
+            echo "[web]" >> .circleci/ansible/inventory.txt \
+            $URLS >> .circleci/ansible/inventory.txt
 
       - run:
           name: Configure server
