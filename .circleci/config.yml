@@ -283,12 +283,16 @@ jobs:
           name: Configure server
           command: |
             # Your code here
+            URLS=$(curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7}) \
+            echo "[web]" >> .circleci/ansible/inventory.txt \
+            $URLS >> .circleci/ansible/inventory.txt
+
             ansible-playbook -i .circleci/ansible/inventory.txt \
             .circleci/ansible/configure-server.yml \
             --private-key=.circleci/ansible/private-key.pem
 
             #exit 1
-      - destroy-environment
+      #- destroy-environment
       # Here's where you will add some code to rollback on failure      
 
   run-migrations:
