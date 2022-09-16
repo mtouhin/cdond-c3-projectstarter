@@ -224,12 +224,10 @@ jobs:
           command: |
             # Your code here
             cd .circleci/ansible \
-            inventory_var=$(aws ec2 describe-instances \
+            aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:project,Values=udapeople" \
-            --output text) \
-            echo $inventory_var >> .circleci/ansible/inventory.txt
-            
+            --output=text  >> inventory.txt
             #exit 1
 
       - persist_to_workspace:
