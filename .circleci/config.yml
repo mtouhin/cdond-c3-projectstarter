@@ -228,7 +228,7 @@ jobs:
             URLS=$(aws ec2 describe-instances \
               --filters "Name=tag:project,Values=udapeople" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output=text)
+              --output=text) \
             curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\} \
             echo "$URLS" >> .circleci/ansible/inventory.txt \
             cat .circleci/ansible/inventory.txt
