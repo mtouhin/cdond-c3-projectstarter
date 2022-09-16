@@ -6,9 +6,11 @@ orbs:
 
 commands:
   destroy-environment:
-    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-    #parameters:
-      # Add parameter here   
+    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.   
+    parameters:
+      workflow-id:
+        type: string
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
     steps:
       - run:
           name: Destroy environments
@@ -264,7 +266,12 @@ jobs:
           command: |
             # Your code here
             apk add --update ansible \
-            sudo apt-get install curl
+            echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+            apk update \
+            apk add -u postgis \
+            rm -rf /var/lib/apt/lists/* \
+            apk add --no-cache curl jq python3 py3-pip
+            pip install awscli
             #exit 1
       
       - run:
