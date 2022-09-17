@@ -266,9 +266,6 @@ jobs:
           command: |
             # Your code here
             apk add --update ansible \
-            echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-            apk update \
-            apk add -u postgis \
             apk add --no-cache curl jq python3 py3-pip \
             pip install awscli
             #exit 1
