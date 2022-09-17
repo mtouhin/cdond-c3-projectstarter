@@ -265,8 +265,7 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            apk add --update ansible \
-            apk add --no-cache curl jq python3 py3-pip \
+            apk add --update tar gzip ansible nodejs npm curl
             #exit 1
 
       - run:
