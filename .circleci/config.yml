@@ -227,12 +227,6 @@ jobs:
             # Your code here
             URLS=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) \
             curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
-            #exit 1
-    
-      - run: 
-          name: Print ec2 instance dns name
-          command: |
-            echo $URLS
 
       - persist_to_workspace:
           root: ~/
@@ -265,7 +259,7 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            apk add --update tar gzip ansible nodejs npm curl
+            apk add --update tar gzip ansible nodejs npm curl awscli
             #exit 1
 
       - run:
