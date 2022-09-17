@@ -447,8 +447,6 @@ workflows:
           filters:
             branches:
               only: [main]
-      - retreieve-dns-name:
-          requires: [deploy-infrastructure]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       #- run-migrations:
