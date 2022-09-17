@@ -269,17 +269,8 @@ jobs:
             echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
             apk update \
             apk add -u postgis \
-            rm -rf /var/lib/apt/lists/* \
             apk add --no-cache curl jq python3 py3-pip \
             pip install awscli
-            #exit 1
-      
-      - run:
-          name: Add back-end ip to ansible inventory
-          command: |
-            # Your code here
-            URLS=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) \
-            curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
             #exit 1
 
       - run:
@@ -293,9 +284,6 @@ jobs:
           name: Configure server
           command: |
             # Your code here
-            URLS=$(curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7}) \
-            echo "[web]" >> .circleci/ansible/inventory.txt \
-            $URLS >> .circleci/ansible/inventory.txt
 
             ansible-playbook -i .circleci/ansible/inventory.txt \
             .circleci/ansible/configure-server.yml \
