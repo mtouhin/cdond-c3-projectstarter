@@ -228,6 +228,12 @@ jobs:
             URLS=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) \
             curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
 
+      - run: 
+          name: Check if backend dns name was retreived
+          command: |
+            echo $URLS  \
+            curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7}
+
       - persist_to_workspace:
           root: ~/
           paths:
@@ -259,7 +265,7 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            apk add --update tar gzip ansible nodejs npm curl python aws-cli
+            apk add --update tar gzip ansible nodejs npm curl python
             #exit 1
 
       - run:
