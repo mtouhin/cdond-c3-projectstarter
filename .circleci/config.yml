@@ -244,20 +244,6 @@ jobs:
           event: fail
           template: basic_fail_1
 
-
-  retreieve-dns-name:
-    docker:
-      # Docker image here that supports AWS CLI
-      - image: amazon/aws-cli
-    steps:
-      - checkout
-      # Checkout code from git
-      - run:
-          name: retreieve dns name
-          command: |
-            temp=$(curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7})
-            echo $temp
-
   configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
@@ -285,7 +271,7 @@ jobs:
           name: Inventory file setup
           command: |
             URLS=$(curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7}) \
-            echo "[web]" >> .circleci/ansible/inventory.txt \
+            echo -e "[web]\n" >> .circleci/ansible/inventory.txt \
             $URLS >> .circleci/ansible/inventory.txt
 
       - run:
