@@ -225,14 +225,13 @@ jobs:
           name: Add back-end ip to ansible inventory
           command: |
             # Your code here
-            URLS=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) \
+            URLS=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) ;
             curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
 
       - run: 
           name: Check if backend dns name was retreived
           command: |
-            echo $URLS  \
-            curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7}
+            echo $URLS 
 
       - persist_to_workspace:
           root: ~/
@@ -244,6 +243,20 @@ jobs:
           channel: integration
           event: fail
           template: basic_fail_1
+
+
+  retreieve-dns-name:
+    docker:
+      # Docker image here that supports AWS CLI
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      # Checkout code from git
+      - run:
+          name: retreieve dns name
+          command: |
+            temp=$(curl -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request GET https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7})
+            echo $temp
 
   configure-infrastructure:
     docker:
@@ -448,8 +461,10 @@ workflows:
           filters:
             branches:
               only: [main]
-      - configure-infrastructure:
+      - retreieve-dns-name:
           requires: [deploy-infrastructure]
+      #- configure-infrastructure:
+        #  requires: [deploy-infrastructure]
       #- run-migrations:
       #    requires: [configure-infrastructure]
       #- deploy-frontend:
