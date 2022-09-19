@@ -282,8 +282,7 @@ jobs:
             # Your code here
 
             ansible-playbook -i .circleci/ansible/inventory.txt \
-            .circleci/ansible/configure-server.yml \
-            #--private-key=.circleci/ansible/private-key.pem
+            .circleci/ansible/configure-server.yml 
 
             #exit 1
       - destroy-environment 
