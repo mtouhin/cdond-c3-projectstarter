@@ -311,7 +311,9 @@ jobs:
           command: |
             # Your code here
             cd backend ;
-            npm install
+            npm i
+            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
             npm run migrations >> migration-log.txt
             #exit 1
       - run:
@@ -321,7 +323,7 @@ jobs:
             cat migration-log.txt
             #exit 1
      # Here's where you will add some code to rollback on failure      
-
+      - destroy-environment 
   deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
