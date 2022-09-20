@@ -307,13 +307,21 @@ jobs:
           at: ~/
 
       - run:
+          name: Install awscli
+          command: |
+            sudo apt-get install -y tar gzip curl
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "aws-cli.zip"
+            unzip -qq aws-cli.zip
+            sudo ./aws/install
+
+      - run:
           name: Run migrations
           command: |
             # Your code here
             cd backend ;
             npm i
-            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+            npm audit fix --audit-level=critical --force
             npm run migrations >> migration-log.txt
             #exit 1
       - run:
@@ -324,6 +332,7 @@ jobs:
             #exit 1
      # Here's where you will add some code to rollback on failure      
       - destroy-environment 
+  
   deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
