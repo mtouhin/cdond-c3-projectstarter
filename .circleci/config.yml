@@ -301,16 +301,25 @@ jobs:
     steps:
       - checkout
       # Checkout code from git
+
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+
       - run:
           name: Run migrations
           command: |
             # Your code here
-            exit 1
+            cd backend ;
+            npm install
+            npm run migrations >> migration-log.txt
+            #exit 1
       - run:
           name: Send migration results to memstash
           command: |
             # Your code here
-            exit 1
+            cat migration-log.txt
+            #exit 1
      # Here's where you will add some code to rollback on failure      
 
   deploy-frontend:
@@ -439,25 +448,25 @@ cleanup:
 workflows:
   default:
     jobs:
-      #- build-frontend
-      #- build-backend
-      #- test-frontend:
-      #    requires: [build-frontend]
-      #- test-backend:
-      #    requires: [build-backend]
-      #- scan-backend:
-      #    requires: [build-backend]
-      #- scan-frontend:
-      #    requires: [build-frontend]
+      - build-frontend
+      - build-backend
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
       - deploy-infrastructure:
-      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
             branches:
               only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      #- run-migrations:
-      #    requires: [configure-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
       #- deploy-frontend:
       #    requires: [run-migrations]
       #- deploy-backend:
