@@ -17,9 +17,9 @@ commands:
           when: on_fail
           command: |
             # Your code here
-            aws cloudformation delete-stack --stack-name udapeople-backEnd-${CIRCLE_WORKFLOW_ID:0:5}
-            aws cloudformation delete-stack --stack-name udapeople-frontEnd-${CIRCLE_WORKFLOW_ID:0:5}
-            exit 1
+            aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
+            aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
+            #exit 1
 
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
@@ -320,8 +320,8 @@ jobs:
             # Your code here
             cd backend ;
             npm i
-            npm audit --audit-level=critical
             npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
             npm run migrations >> migration-log.txt
             #exit 1
       - run:
