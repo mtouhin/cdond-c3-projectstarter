@@ -30,17 +30,27 @@ commands:
       - run:
           name: Revert migrations
           # Add when this will run
+          when: on_fail
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
+            export SUCCESS=$(curl --insecure https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7})           
+            echo $SUCCESS
             if(( $SUCCESS==1 )); 
             then
-            #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-              exit 1
+              cd ~/project/backend
+              npm install
+              #  Add revert code here. You can find this in the Getting Started section.
+              npm run migrations:revert
+              #  exit 1
             fi
-            
+
+  slack-notify:
+    steps:          
+      - slack/notify:
+          channel: integration
+          event: fail
+          template: basic_fail_1          
+
 jobs:
   build-frontend:
     docker:
@@ -60,11 +70,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-
-      - slack/notify:
-          channel: integration
-          event: fail
-          template: basic_fail_1
+      - slack-notify
 
   build-backend:
     docker:
@@ -83,11 +89,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      
-      - slack/notify:
-          channel: integration
-          event: fail
-          template: basic_fail_1
+      - slack-notify
 
   test-frontend:
     docker:
@@ -239,11 +241,7 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure    
-
-      - slack/notify:
-          channel: integration
-          event: fail
-          template: basic_fail_1
+      - slack-notify
 
   configure-infrastructure:
     docker:
@@ -274,7 +272,6 @@ jobs:
             URLS=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) ;
             curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$URLS" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
 
-
       - run:
           name: Inventory file setup
           command: |
@@ -293,6 +290,7 @@ jobs:
 
             #exit 1
       - destroy-environment 
+      - slack-notify
       # Here's where you will add some code to rollback on failure      
 
   run-migrations:
@@ -332,6 +330,7 @@ jobs:
             #exit 1
      # Here's where you will add some code to rollback on failure      
      # - destroy-environment 
+      - slack-notify
   
   deploy-frontend:
     docker:
