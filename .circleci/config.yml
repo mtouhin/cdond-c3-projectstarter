@@ -321,7 +321,6 @@ jobs:
             cd backend ;
             npm i
             npm audit fix
-            npm run build
             npm run migrations >> migration-log.txt
             #exit 1
       - run:
