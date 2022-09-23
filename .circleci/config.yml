@@ -320,7 +320,7 @@ jobs:
             # Your code here
             cd backend ;
             npm i
-            npm audit fix
+            npm audit fix --force
             npm run migrations >> migration-log.txt
             #exit 1
       - run:
@@ -330,7 +330,7 @@ jobs:
             cat migration-log.txt
             #exit 1
      # Here's where you will add some code to rollback on failure      
-      - destroy-environment 
+     # - destroy-environment 
   
   deploy-frontend:
     docker:
