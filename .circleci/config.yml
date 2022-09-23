@@ -17,6 +17,7 @@ commands:
           when: on_fail
           command: |
             # Your code here
+            aws s3 rb s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --force
             aws cloudformation delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:5}
             aws cloudformation delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:5}
             #exit 1
@@ -319,9 +320,8 @@ jobs:
           command: |
             # Your code here
             cd backend ;
-            npm i
-            #npm audit fix --force
-            #npm run build
+            npm install
+            npm run build
             npm run migrations >> migration-log.txt
             #exit 1
       - run:
@@ -459,25 +459,25 @@ cleanup:
 workflows:
   default:
     jobs:
-      - build-frontend
-      - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main]
-      - configure-infrastructure:
-          requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
+      #- build-frontend
+      #- build-backend
+      #- test-frontend:
+      #    requires: [build-frontend]
+      #- test-backend:
+      #    requires: [build-backend]
+      #- scan-backend:
+      #    requires: [build-backend]
+      #- scan-frontend:
+      #    requires: [build-frontend]
+      #- deploy-infrastructure:
+      #    requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      #    filters:
+      #      branches:
+      #        only: [main]
+      #- configure-infrastructure:
+      #    requires: [deploy-infrastructure]
+      - run-migrations
+          #requires: [configure-infrastructure]
       #- deploy-frontend:
       #    requires: [run-migrations]
       #- deploy-backend:
