@@ -414,7 +414,8 @@ jobs:
           name: Deploy backend
           command: |
             # your code here
-            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml \
+            --private-key=.circleci/ansible/private-key2.pem
       # Here's where you will add some code to rollback on failure  
       - slack-notify
       - revert-migrations
