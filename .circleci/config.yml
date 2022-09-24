@@ -326,6 +326,7 @@ jobs:
           name: Send migration results to memstash
           command: |
             # Your code here
+            cd backend;
             cat migration-log.txt
             #exit 1
      # Here's where you will add some code to rollback on failure      
