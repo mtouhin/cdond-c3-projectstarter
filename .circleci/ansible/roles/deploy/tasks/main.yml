@@ -1,4 +1,10 @@
 --- 
+
+- name: "create directory"
+  file:
+    path: /home/ubuntu/backend
+    state: directory
+
 - name: "unarchive backend files"
   unarchive: 
     dest: /home/ubuntu/backend
