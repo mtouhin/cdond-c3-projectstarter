@@ -327,7 +327,7 @@ jobs:
           command: |
             # Your code here
             cd backend;
-            cat migration-log.txt
+            cat migration-log.txt ;
             if [ 1 -eq $(grep -c "has been executed successfully" migration-log.txt) ]
             then
               curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" \
