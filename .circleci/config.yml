@@ -320,6 +320,7 @@ jobs:
             cd backend ;
             npm install
             npm run build
+            npm run migrations:revert
             npm run migrations >> migration-log.txt
             #exit 1
       - run:
@@ -328,9 +329,16 @@ jobs:
             # Your code here
             cd backend;
             cat migration-log.txt
+            if [ 1 -eq $(grep -c "has been executed successfully" migration-log.txt) ]
+            then
+              curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID}" \
+                  --request PUT --data "1" https://api.memstash.io/values/migrationStatus
+            else
+              curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID}" \
+                  --request PUT --data "0" https://api.memstash.io/values/migrationStatus
             #exit 1
      # Here's where you will add some code to rollback on failure      
-     # - destroy-environment 
+      - destroy-environment 
       - slack-notify
   
   deploy-frontend:
