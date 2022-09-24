@@ -417,6 +417,7 @@ jobs:
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml \
             --private-key=.circleci/ansible/private-key2.pem
       # Here's where you will add some code to rollback on failure  
+      - destroy-environment 
       - slack-notify
       - revert-migrations
 
