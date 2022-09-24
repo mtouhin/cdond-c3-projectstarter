@@ -397,6 +397,13 @@ jobs:
             pip install awscli
 
       - run:
+          name: Zip files
+          command: |
+            cd backend
+            npm install
+            tar -C backend -czvf artifact.tar.gz .
+
+      - run:
           name: Get dns name
           command: |
             URLS=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) ;
