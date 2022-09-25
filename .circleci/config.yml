@@ -382,11 +382,6 @@ jobs:
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/
-
       # Here's where you will add some code to rollback on failure     
       - destroy-environment 
       - revert-migrations
@@ -442,11 +437,7 @@ jobs:
             # your code here
             ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/deploy-backend.yml \
             --private-key=.circleci/ansible/private-key2.pem
-
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/      
+  
       # Here's where you will add some code to rollback on failure  
       - destroy-environment 
       - slack-notify
@@ -521,6 +512,7 @@ jobs:
             else
               exit 1
             fi
+            
       # Here's where you will add some code to rollback on failure  
       - destroy-environment 
       - slack-notify
