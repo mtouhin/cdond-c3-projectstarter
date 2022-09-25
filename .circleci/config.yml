@@ -441,7 +441,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update tar gzip ansible nodejs npm curl python
+            apk add --update tar gzip ansible nodejs npm curl python jq
             pip install awscli
       - run:
           name: Get backend url
@@ -457,7 +457,7 @@ jobs:
           command: |
             # your code here
             STATUS_URL="${API_URL}/api/status"
-            if curl $API_URL | grep "ok"
+            if curl $STATUS_URL | grep "ok"
             then
               exit 0
             else
