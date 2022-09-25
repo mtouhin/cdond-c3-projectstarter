@@ -456,7 +456,7 @@ jobs:
           name: Backend smoke test.
           command: |
             # your code here
-            API_URL="${BACKEND_URL}/api/status"
+            STATUS_URL="${API_URL}/api/status"
             if curl $API_URL | grep "ok"
             then
               exit 0
@@ -477,7 +477,7 @@ jobs:
               return 1
             fi
       # Here's where you will add some code to rollback on failure  
-      - destroy-environment 
+      #- destroy-environment 
       - slack-notify
       - revert-migrations
 
