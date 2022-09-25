@@ -505,14 +505,18 @@ jobs:
           name: Backend smoke test.
           command: |
             # your code here
+            BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:project,Values=udapeople" | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')
+            API_URL="http://${BACKEND_IP}:3030"
             STATUS_URL="${API_URL}/api/status"
+            echo $STATUS_URL
             if curl $STATUS_URL | grep "ok"
             then
               exit 0
             else
               exit 1
             fi
-            
+
       # Here's where you will add some code to rollback on failure  
       - destroy-environment 
       - slack-notify
