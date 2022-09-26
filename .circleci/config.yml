@@ -263,7 +263,7 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            apk add --update tar gzip ansible nodejs npm curl python
+            apk add --update tar gzip ansible nodejs npm curl python jq
             pip install awscli
             #exit 1
       - run:
@@ -314,7 +314,7 @@ jobs:
       - run:
           name: Install awscli
           command: |
-            sudo apt-get install -y tar gzip curl
+            sudo apt-get install -y tar gzip curl jq
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "aws-cli.zip"
             unzip -qq aws-cli.zip
             sudo ./aws/install
@@ -362,7 +362,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update tar gzip ansible nodejs npm curl
+            apk add --update tar gzip ansible nodejs npm curl jq
             pip install awscli
       - run:
           name: Get backend url
@@ -406,7 +406,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update tar gzip ansible nodejs npm curl python
+            apk add --update tar gzip ansible nodejs npm curl python jq
             pip install awscli
 
       - run:
