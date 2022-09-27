@@ -543,9 +543,9 @@ jobs:
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
 
-            export STACKS=($(aws cloudformtation list-stacks --query "StackSummeries[*].StackName" \
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummeries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
-            
+
             curl -H "Content-Type: text/plain" -H "token: HbfEaJNUXNPZ2MNx4KVzaV" --request PUT --data "$OLD_WORKFLOW_ID" https://kvdb.io/HbfEaJNUXNPZ2MNx4KVzaV/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}
 
             aws cloudformation deploy \
@@ -557,7 +557,7 @@ jobs:
 
 
       # Here's where you will add some code to rollback on failure  
-      - destroy-environment 
+      #- destroy-environment 
       - slack-notify
       - revert-migrations
 
