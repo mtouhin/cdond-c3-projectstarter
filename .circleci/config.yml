@@ -557,7 +557,7 @@ jobs:
 
 
       # Here's where you will add some code to rollback on failure  
-      #- destroy-environment 
+      - destroy-environment 
       - slack-notify
       - revert-migrations
 
@@ -618,5 +618,5 @@ workflows:
           requires: [smoke-test-frontend]
       - cloudfront-update:
           requires: [smoke-test-frontend, smoke-test-backend]
-      #- cleanup:
-          #requires: [cloudfront-update]
+      - cleanup:
+          requires: [cloudfront-update]
