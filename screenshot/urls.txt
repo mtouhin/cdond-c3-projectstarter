@@ -12,5 +12,5 @@ Front end S3
 http://udapeople-447218b.s3-website-us-east-1.amazonaws.com/#/employees
 
 Back end ec2 server
-
+https://d2ek8nnffqix2g.cloudfront.net/#/employees
 http://ec2-52-91-235-94.compute-1.amazonaws.com
