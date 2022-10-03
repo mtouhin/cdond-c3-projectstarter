@@ -395,6 +395,7 @@ jobs:
             # your code here
             cd frontend
             npm i
+            npm install package.json
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
@@ -570,9 +571,7 @@ jobs:
               --tags project=udapeople \
               --stack-name "udapeople-cloudfront" \
               --region us-east-1 \
-              #--parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
-              --parameters ParameterKey={"WorkflowID",ParameterValue=${CIRCLE_WORKFLOW_ID:0:7},UsePreviousValue=false
-              #--parameters ParameterKey=ImageId,ParameterValue=myLatestAMI
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}"
 
       # Here's where you will add some code to rollback on failure  
       - destroy-environment 
