@@ -383,8 +383,7 @@ jobs:
             # your code here
             export BACKEND_PUBLIC_IP=$(aws --region us-east-1 ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query 'Reservations[*].Instances[*].PublicDnsName' --output text)
             export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
-            echo "${API_URL}"
-            echo API_URL="http://${BACKEND_PUBLIC_IP}:3030" >> frontend/.env
+            echo "${API_URL}" >> frontend/.env
             cat frontend/.env
 
 
