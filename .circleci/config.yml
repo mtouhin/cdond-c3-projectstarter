@@ -349,6 +349,56 @@ jobs:
   
   deploy-frontend:
     docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run: 
+          name: install tar gzip and curl
+          command: |
+            yum -y install tar 
+            yum -y install gzip
+            yum -y install curl
+      - run: 
+          name: install Dependencies
+          command: |
+            curl -sL https://rpm.nodesource.com/setup_lts.x | bash -
+            yum install -y nodejs      
+      - run:  
+          name: Get backend API
+          command: |
+            BACKEND_API=(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicDnsName' \
+            --filters  "Name=tag:project,Values=udapeople" --output text) ;
+            export API_URL="http://${BACKEND_API}:3030"
+            echo "${API_URL}"    
+            echo API_URL=$API_URL >> "frontend/.env"
+            echo ENVIRONMENT=production  >> "frontend/.env" 
+            echo NODE_ENV=production >> "frontend/.env"
+            cat "frontend/.env"
+      - run:  
+          name: configure server
+          working_directory: ./frontend         
+          command: |
+            npm install
+            npm install -g typescript ts-node
+            npm install package.json
+            cat .env
+            ls -la
+            npm run build
+      - run:
+          name: List frontend files
+          working_directory: ./frontend/dist
+          command: |
+            ls
+      - run:
+          name: Deploy frontend object to S3
+          working_directory: ./frontend
+          command: |
+            aws s3 cp ./dist "s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
+
+
+
+  deploy-frontend-:
+    docker:
       # Docker image here that supports AWS CLI
       - image: python:3.7-alpine3.11
     steps:
