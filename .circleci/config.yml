@@ -307,7 +307,7 @@ jobs:
       - run:
           name: create .env files
           command: |
-            echo NODE_ENV=production > "backend/.env"
+            #echo NODE_ENV=production > "backend/.env"
             echo VERSION=1 >> "backend/.env"
             echo ENVIROMENT=development >> "backend/.env"
             echo TYPEORM_CONNECTION=postgres >> "backend/.env"
