@@ -28,7 +28,7 @@
     echo TYPEORM_HOST='postgres.cskrn9cxfqsb.us-east-1.rds.amazonaws.com' >> ".env"
     echo TYPEORM_PORT=5432 >> ".env"
     echo TYPEORM_USERNAME='postgres' >> ".env"
-    echo TYPEORM_PASSWORD=$'uda12345' >> ".env"
+    echo TYPEORM_PASSWORD='uda12345' >> ".env"
     echo TYPEORM_DATABASE='postgres' >> ".env"
     npm run prestart:prod
 
