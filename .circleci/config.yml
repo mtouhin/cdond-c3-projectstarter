@@ -390,8 +390,8 @@ jobs:
             npm i
             npm install package.json
             BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:project,Values=udapeople" --query "Reservations[*].Instances[*].PublicDnsName" --output text) ;
-            export BACKEND_IP
             API_URL="http://${BACKEND_IP}:3030"
+            API_URL=${API_URL//[[:blank:]]/}
             echo $API_URL >> .env
             export $API_URL
             cat .env
