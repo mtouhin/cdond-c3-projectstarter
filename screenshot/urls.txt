@@ -9,8 +9,16 @@ https://github.com/mtouhin/cdond-c3-projectstarter.git
 
 Front end S3
 
-http://udapeople-447218b.s3-website-us-east-1.amazonaws.com/#/employees
+http://udapeople-169b684.s3-website-us-east-1.amazonaws.com/#/employees
+
+cloudfront
+
+https://dfv7cdk0ygqnp.cloudfront.net
 
 Back end ec2 server
-https://d2ek8nnffqix2g.cloudfront.net/#/employees
-http://ec2-52-91-235-94.compute-1.amazonaws.com
+
+http://ec2-172-31-83-151.compute-1.amazonaws.com:3030/api/status
+
+prometheus
+
+http://ec2-44-204-233-140.compute-1.amazonaws.com:9090/targets
